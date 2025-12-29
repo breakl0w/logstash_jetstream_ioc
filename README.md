@@ -19,3 +19,23 @@ nats stream info IOC_STREAM
 
 # Проверка consumer
 nats consumer info IOC_STREAM logstash-consumer
+
+# Одиночный IoC
+curl -X POST http://localhost:8000/api/v1/ioc \
+  -H "Content-Type: application/json" \
+  -d '{
+    "value": "192.168.1.100",
+    "type": "ip",
+    "threat_type": "malware",
+    "source": "manual",
+    "confidence": 90,
+    "tags": ["c2", "botnet"]
+  }'
+
+# Массовая загрузка
+curl -X POST http://localhost:8000/api/v1/ioc/bulk \
+  -H "Content-Type: application/json" \
+  -d '[
+    {"value": "evil.com", "type": "domain", "threat_type": "phishing", "source": "feed", "confidence": 85},
+    {"value": "bad.ip.address", "type": "ip", "threat_type": "scanner", "source": "feed", "confidence": 70}
+  ]
