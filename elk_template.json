@@ -1,0 +1,32 @@
+curl -X PUT "https://localhost:9200/_index_template/ioc-template" \
+  -u admin:admin -k \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "index_patterns": ["ioc-*"],
+  "template": {
+    "settings": {
+      "number_of_shards": 1,
+      "number_of_replicas": 1
+    },
+    "mappings": {
+      "properties": {
+        "value": { "type": "keyword" },
+        "type": { "type": "keyword" },
+        "threat_type": { "type": "keyword" },
+        "source": { "type": "keyword" },
+        "confidence": { "type": "integer" },
+        "severity": { "type": "keyword" },
+        "timestamp": { "type": "date" },
+        "enriched_at": { "type": "date" },
+        "is_private": { "type": "boolean" },
+        "geoip": {
+          "properties": {
+            "location": { "type": "geo_point" },
+            "country_name": { "type": "keyword" },
+            "city_name": { "type": "keyword" }
+          }
+        }
+      }
+    }
+  }
+}'
