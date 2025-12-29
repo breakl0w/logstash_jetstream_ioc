@@ -1,0 +1,11 @@
+filebeat.inputs:
+  - type: log
+    enabled: true
+    paths:
+      - /var/log/threat_feeds/*.json
+    json.keys_under_root: true
+
+output.http:
+  hosts: ["http://localhost:8080/ioc"]
+  headers:
+    Content-Type: application/json
